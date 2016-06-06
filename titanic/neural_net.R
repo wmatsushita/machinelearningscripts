@@ -40,24 +40,5 @@ nn_prediction <- compute(nn, test_[,!names(test_) %in% c("PassengerId", "Survive
 prediction <- ifelse(nn_prediction$net.result < 0.5, 0, 1)
 prop.table(table(pred = prediction, fact = test_$Survived))
 
-readTrainData <- function(train_file = "train.csv") {
-  
-  library(dplyr)
-  # Loads the train data
-  train <- tbl_df(read.csv("train.csv"))
-  # Prints the NA count for all the columns in the data
-  print(apply(train, 2, function(x) sum(is.na(x))))
 
-  train
-  
-}
-
-trainTree <- function (data, ) {
-  
-  train_tree <- data %>% select()
-  train_tree <- data[!is.na(data$Age), !names(data) %in% c("PassengerId", "Name", "Ticket", "Embarked", "Cabin") ]
-  
-  library(rpart)
-  tree <- rpart(Age ~ Survived + Pclass + Sex + SibSp + Parch + Fare, data = train_tree, method = "anova")  
-}
 
