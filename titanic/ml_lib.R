@@ -92,3 +92,11 @@ checkForNAs <- function (data) {
   print(apply(data, 2, function(x) sum(is.na(x))))
   
 }
+
+normalizeCategoricalFeatures <- function (data, features) {
+  factor_cols <- sapply(names(allData), function(colName) is.factor(allData[1,colName]) & nlevels(allData[1,colName] > 2))
+  factor_cols <- factor_cols[factor_cols==TRUE]
+  
+  
+  
+}

@@ -1,0 +1,40 @@
+load("C:/Users/user/DataScience/machinelearningscripts/titanic/neural_net_model_081340.RData")
+str(allData)
+table(allData$Ticket)
+table(allData$Ticket) > 1
+a <- table(allData$Ticket)
+a[a>1]
+str(allData)
+col(allData)
+is.factor(allData)
+?is.factor
+sapply(names(allData), function(x) is.factor(allData[x]))
+sapply(names(allData), function(x) is.factor(allData[1,x]))
+a <- sapply(names(allData), function(x) is.factor(allData[1,x])) == TRUE
+a
+a <- sapply(names(allData), function(x) is.factor(allData[1,x]))
+a == TRUE
+str(a)
+a[TRUE}
+a[TRUE]
+a[a==TRUE]
+a
+allData[1,a]
+a <- sapply(names(allData), function(x) is.factor(allData[1,x]) & levels(allData[1,x]) > 2)
+allData[1,a]
+a
+a <- sapply(names(allData), function(x) is.factor(allData[1,x]) && levels(allData[1,x]) > 2)
+a
+allData[1,a]
+str(allData)
+levels(allData$Ticket)
+a <- sapply(names(allData), function(x) is.factor(allData[1,x]) && nlevels(allData[1,x]) > 2)
+allData[1,a]
+sapply(names(allData), function(x) sum(is.factor(allData[x])))
+sapply(names(allData), function(x) sum(is.factor(allData[1,x])))
+a <- apply(allData, 2, function(x) nlevels(x))
+a
+str(allData["Cabin"])
+str(allData[["Cabin"]])
+a <- apply(names(allData), 2, function(x) nlevels(allData[[x]]))
+savehistory("C:/Users/user/DataScience/machinelearningscripts/titanic/normalizingCategorialFeatures.RData")
