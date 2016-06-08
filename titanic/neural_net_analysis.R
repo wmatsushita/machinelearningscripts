@@ -16,12 +16,24 @@ allData$Salutation <- as.factor(
     sapply(tokens, function(x) x[2])
   }))
 
+allData$CabinClass <- as.factor(sapply(allData$Cabin, function(x) substring(x,1,1)))
+
 ages <- predictMissingValuesWithRPart(allData, "Age", c("PassengerId", "Survived", "Name", "Age"))
 allData$Age[is.na(allData$Age)] <- ages
 
-train <- allData[allData$PassengerId %in% train$PassengerId,]
-test <- allData[allData$PassengerId %in% test$PassengerId,]
+allData <- normalizeCategoricalFeatures(allData, c("CabinClass", "Salutation"))
 
-scaled_train <- normalizeDataForNN(train)
-nn <- trainNN(scaled_train, "Survived", c("PassengerId", "Survived", "Name"), hidden=c(5,2), algorithm="sag", threshold=0.01, stepmax=20e6, linear.output=F)
+scaled_allData <- normalizeDataForNN(allData[,!names(allData) %in% c("PassengerId", "Survived", "Name")])
+clusters <- kmeans(scaled_allData[,!names(scaled_allData) %in% c("PassengerId", "Survived", "Name")], 3)
+allData$Clusters <- clusters$cluster
+
+allData <- normalizeCategoricalFeatures(allData, c("Clusters"))
+
+scaled_allData <- normalizeDataForNN(allData[,!names(allData) %in% c("PassengerId", "Name")])
+scaled_allData$PassengerId <- allData$PassengerId
+
+scaled_train <- scaled_allData[scaled_allData$PassengerId %in% train$PassengerId,]
+scaled_test <- scaled_allData[scaled_allData$PassengerId %in% test$PassengerId,]
+
+#nn <- trainNN(scaled_train, "Survived", c("PassengerId", "Survived", "Name"), hidden=c(5,2), algorithm="sag", threshold=0.01, stepmax=20e6, linear.output=F)
 

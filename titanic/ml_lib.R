@@ -94,9 +94,17 @@ checkForNAs <- function (data) {
 }
 
 normalizeCategoricalFeatures <- function (data, features) {
-  factor_cols <- sapply(names(allData), function(colName) is.factor(allData[1,colName]) & nlevels(allData[1,colName] > 2))
-  factor_cols <- factor_cols[factor_cols==TRUE]
+  #factor_cols <- sapply(names(allData), function(colName) is.factor(allData[1,colName]) & nlevels(allData[1,colName] > 2))
+  #factor_cols <- factor_cols[factor_cols==TRUE]
   
+  for(colName in features) {
+    for(level in levels(data[[colName]])) {
+      newColName <- paste(colName, "Eq", level, sep = "")
+      data[[newColName]] <- 0
+      data[data[[colName]] == level, newColName] <- 1
+    }
+    data[[colName]] <- NULL
+  }
   
-  
+  data
 }
